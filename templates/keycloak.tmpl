@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Authentification réussie</title>
+</head>
+<body>
+<h1>Vous être authentifiés via Keycloak !</h1>
+votre email : <strong>{{.Email}}</strong>
+{{if .EmailVerified}}
+    (vérifié)
+{{end}}
+
+token keycloak: {{.Keto}}<br/>
+<hr/>
+<h2>oauth2 token</h2>
+acces_token: {{.OAuth2token}} <br/>
+refresh_token: {{.OAuth2refresh}} <br/>
+token_type: {{.OAuth2type}} <br/>
+
+après: <a href="/me">next</a>
+</body>
+</html>
