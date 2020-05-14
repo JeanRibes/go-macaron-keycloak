@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Mon profil adhérent</title>
+</head>
+<body>
+Bonjour {{.Adherent.FirstName}} {{.Adherent.LastName}} !<br/>
+votre nom d'utilisateur: {{.Adherent.Username}}<br/>
+{{if .Adherent.APaye}}
+    vous avez payé
+{{else}}
+    vous n'avez pas payé
+{{end}}
+</body>
+</html>

@@ -10,6 +10,8 @@ votre email : <strong>{{.Email}}</strong>
 {{if .EmailVerified}}
     (vérifié)
 {{end}}
+<br>
+votre username: <em>{{.Username}}</em>
 
 token keycloak: {{.Keto}}<br/>
 <hr/>
@@ -18,6 +20,6 @@ acces_token: {{.OAuth2token}} <br/>
 refresh_token: {{.OAuth2refresh}} <br/>
 token_type: {{.OAuth2type}} <br/>
 
-après: <a href="/me">next</a>
+après: <a href="/profile">next</a>
 </body>
 </html>
