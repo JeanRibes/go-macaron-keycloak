@@ -1,17 +1,17 @@
 {
   "clientId": "goami",
-  "rootUrl": "http://localhost:4000/",
-  "adminUrl": "http://localhost:4000/",
+  "rootUrl": "http://192.168.0.32:4000/",
+  "adminUrl": "http://192.168.0.32:4000/",
   "surrogateAuthRequired": false,
   "enabled": true,
   "alwaysDisplayInConsole": false,
   "clientAuthenticatorType": "client-secret",
   "redirectUris": [
-    "http://localhost:4000/*",
+    "http://192.168.0.32:4000/*",
     "http://localhost:4000/*"
   ],
   "webOrigins": [
-    "http://localhost:4000",
+    "http://192.168.0.32:4000",
     "+"
   ],
   "notBefore": 0,
@@ -40,8 +40,25 @@
     "saml.onetimeuse.condition": "false"
   },
   "authenticationFlowBindingOverrides": {},
-  "fullScopeAllowed": true,
+  "fullScopeAllowed": false,
   "nodeReRegistrationTimeout": -1,
+  "protocolMappers": [
+    {
+      "name": "buro",
+      "protocol": "openid-connect",
+      "protocolMapper": "oidc-usermodel-client-role-mapper",
+      "consentRequired": false,
+      "config": {
+        "multivalued": "true",
+        "userinfo.token.claim": "true",
+        "id.token.claim": "true",
+        "access.token.claim": "true",
+        "claim.name": "ami_roles",
+        "jsonType.label": "String",
+        "usermodel.clientRoleMapping.clientId": "goami"
+      }
+    }
+  ],
   "defaultClientScopes": [
     "web-origins",
     "role_list",

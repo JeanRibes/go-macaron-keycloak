@@ -17,12 +17,22 @@ var oauth2Config oauth2.Config
 var verifier *oidc.IDTokenVerifier
 
 type Claims struct {
-	Email     string `json:"email"`
-	Verified  bool   `json:"email_verified"`
-	LastName  string `json:"family_name"`
-	FirstName string `json:"given_name"`
-	Gender    string `json:"gender"`
-	Username  string `json:"preferred_username"`
+	Email     string   `json:"email"`
+	Verified  bool     `json:"email_verified"`
+	LastName  string   `json:"family_name"`
+	FirstName string   `json:"given_name"`
+	Gender    string   `json:"gender"`
+	Username  string   `json:"preferred_username"`
+	AmiRoles  []string `json:"ami_roles"`
+}
+
+func (claims Claims) IsBureau() bool {
+	for _, role := range claims.AmiRoles {
+		if role == "bureau" {
+			return true
+		}
+	}
+	return false
 }
 
 func SetupRemoteAuth() {
@@ -80,6 +90,7 @@ func OidcFinish(r *http.Request, ctx *macaron.Context, sess session.Store) {
 	}
 	if !claims.Verified { // si l'email n'est pas vérifié
 		showError(ctx, errors.New(fmt.Sprintf("Vous devez vérifier votre e-mail ()", claims.Email)))
+		return
 	}
 
 	ctx.Data["Email"] = claims.Email
@@ -92,6 +103,9 @@ func OidcFinish(r *http.Request, ctx *macaron.Context, sess session.Store) {
 
 	handleError(sess.Set("keycloak_token", oauth2Token.AccessToken))
 	handleError(sess.Set("keycloak_refresh_token", oauth2Token.RefreshToken))
+	if claims.IsBureau() {
+		handleError(sess.Set("role_bureau", true))
+	}
 	//handleError(sess.Set("email", claims.Email))
 	handleError(sess.Set("username", claims.Username))
 	adherent, errnotfound := db.FindAdherentByUsername(claims.Username)
@@ -107,33 +121,46 @@ func OidcFinish(r *http.Request, ctx *macaron.Context, sess session.Store) {
 		updateAdherentFromToken(oauth2Token, adherent)
 		db.UpdateAdherent(adherent)
 	}
-	//handleError(sess.Set("profile", adherent))
 
 	ctx.HTML(200, "keycloak")
 }
 
-func claimsToAdherent(claims Claims) db.Adherent {
-	return db.Adherent{
-		Username:     claims.Username,
-		FirstName:    claims.FirstName,
-		LastName:     claims.LastName,
-		Email:        claims.Email,
-		Gender:       claims.Gender,
-		Commentaires: "ajouté par Keycloak",
-		JoinedAt:     time.Now(),
-		APaye:        false,
-	}
-}
 func updateAdherentFromClaims(claims Claims, adherent *db.Adherent) {
 	adherent.Username = claims.Username
 	adherent.FirstName = claims.FirstName
 	adherent.LastName = claims.LastName
 	adherent.Email = claims.Email
 	adherent.Gender = claims.Gender
+	adherent.RoleBureau = claims.IsBureau()
+}
+func claimsToAdherent(claims Claims) db.Adherent {
+	adherent := db.Adherent{
+		Commentaires: "ajouté par Keycloak",
+		JoinedAt:     time.Now(),
+		APaye:        false,
+	}
+	updateAdherentFromClaims(claims, &adherent)
+	return adherent
 }
 func updateAdherentFromToken(token *oauth2.Token, adherent *db.Adherent) {
 	adherent.Auth = db.IdToken{
 		AuthToken:    token.AccessToken,
 		RefreshToken: token.RefreshToken,
+	}
+}
+
+func AuthenticationMiddleware(ctx *macaron.Context, store session.Store) {
+	keycloak_token := store.Get("keycloak_token")
+	if keycloak_token == nil {
+		showError(ctx, errors.New("Vous n'êtes pas authentifié !"))
+	} else {
+		// correct
+		// ctx.Map(&adherent)
+	}
+}
+func BureauMiddleware(ctx *macaron.Context, store session.Store) {
+	bureau_role := store.Get("role_bureau")
+	if bureau_role == nil {
+		showError(ctx, errors.New("Vous n'êtes pas membre du Bureau ! permission non accordée"))
 	}
 }

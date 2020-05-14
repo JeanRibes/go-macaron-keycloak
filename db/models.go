@@ -1,6 +1,7 @@
 package db
 
 import (
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"time"
 )
 
@@ -9,7 +10,7 @@ type IdToken struct {
 	RefreshToken string
 }
 type Adherent struct { //les champs CamelCase sont convertis en lowercase
-	//ID primitive.ObjectID `json:"id" bson:"_id,omitempty"`
+	ID primitive.ObjectID `json:"id" bson:"_id,omitempty"`
 
 	//récup de keycloak
 	Username  string  ``
@@ -19,7 +20,8 @@ type Adherent struct { //les champs CamelCase sont convertis en lowercase
 	LastName  string
 	Gender    string `` //c'est un attribut sur KC
 
-	JoinedAt     time.Time ``
+	JoinedAt     time.Time `bson:"joined_at"`
 	Commentaires string    //pour les admins
-	APaye        bool
+	APaye        bool      `bson:"a_paye"`
+	RoleBureau   bool      `bson:"role_bureau"`
 }

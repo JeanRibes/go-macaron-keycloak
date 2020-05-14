@@ -12,7 +12,7 @@ func handleError(err error) {
 }
 func main() {
 	m := web.CreateServer() //  https://go-macaron.com/
-	//m.Use(macaron.Renderer(macaron.RenderOptions{Directory: "./templates"}))
+
 	db.Connect()
 	defer db.Disconnect()
 

@@ -1,6 +1,7 @@
 package web
 
 import (
+	"github.com/go-macaron/csrf"
 	"github.com/go-macaron/session"
 	"gopkg.in/macaron.v1"
 	"net/http"
@@ -12,7 +13,10 @@ func SetupRoutes(m *macaron.Macaron) {
 	//authentification Keycloak
 	m.Get("/start/", OidcStart)
 	m.Get("/return/", OidcFinish)
-	m.Get("/profile", MyProfile)
+	m.Get("/profile", AuthenticationMiddleware, MyProfile)
+
+	m.Get("/list", BureauMiddleware, TableauAdherents)
+	m.Post("/modifpay", csrf.Validate, BureauMiddleware, ModifPaiement)
 
 	m.Get("/test", func(w http.ResponseWriter, r *http.Request, ctx *macaron.Context) {
 		ctx.Header().Set("Content-Type", "text/html")

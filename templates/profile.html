@@ -12,5 +12,9 @@ votre nom d'utilisateur: {{.Adherent.Username}}<br/>
 {{else}}
     vous n'avez pas payé
 {{end}}
+<hr/>
+{{if .Adherent.RoleBureau}}
+    vous faites partie du bureau, vous avez donc des droits administratifs sur ce site
+{{end}}
 </body>
 </html>

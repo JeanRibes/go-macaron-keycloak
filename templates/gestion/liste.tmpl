@@ -1,0 +1,43 @@
+{{define "base"}}
+    <!DOCTYPE html>
+    <html lang="fr">
+    <head>
+        <meta charset="UTF-8">
+        <title>Gestion de mon association</title>
+    </head>
+    <body>
+{{end}}
+
+{{define "base_end"}}
+    </body>
+    </html>
+{{end}}
+
+{{define "show_adherent"}}
+    {{.FirstName}} {{.LastName}}, {{if eq .Gender "W"}} femme {{else}} homme {{end}} ({{.Commentaires}})
+{{end}}
+
+{{template "base"}}
+
+<h2>Liste des adhérents</h2>
+<ul>
+    {{range .Valides}}
+        <li>{{template "show_adherent" .}}</li>
+    {{end}}
+</ul>
+
+<h3>non payé</h3>
+<form action="/modifpay" method="post">
+    <ul>
+        {{range .Invalides}}
+            <li>
+                {{template "show_adherent" .}}
+                <input type="checkbox" name="{{.Username}}"/>
+            </li>
+        {{end}}
+        <input type="hidden" name="_csrf" value="{{.csrf_token}}"/>
+        <button>Modifier les paiements</button>
+    </ul>
+</form>
+
+{{template "base_end"}}

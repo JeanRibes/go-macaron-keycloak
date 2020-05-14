@@ -2,6 +2,7 @@ package web
 
 import (
 	"context"
+	"github.com/go-macaron/csrf"
 	"github.com/go-macaron/session"
 	"gopkg.in/macaron.v1"
 	"log"
@@ -16,6 +17,8 @@ func CreateServer() *macaron.Macaron {
 		Provider:       "file",
 		ProviderConfig: "local-sessions-cache",
 	})) // pour avoir des données de session comme PHP
+
+	m.Use(csrf.Csrfer())
 	return m
 }
 

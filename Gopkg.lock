@@ -11,6 +11,14 @@
 
 [[projects]]
   branch = "master"
+  digest = "1:f43cad4967e4afc33c1ebb5c155db8c9da7011122a07b3d7348fd794fc1df512"
+  name = "github.com/go-macaron/csrf"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "5d38f39de352972063d1ef026fc477283841bb9b"
+
+[[projects]]
+  branch = "master"
   digest = "1:bdb17865b13e720add16eaa212872b4306c8521f367c7a7ff2c10cef1e7afdb1"
   name = "github.com/go-macaron/inject"
   packages = ["."]
@@ -288,7 +296,10 @@
   analyzer-version = 1
   input-imports = [
     "github.com/coreos/go-oidc",
+    "github.com/go-macaron/csrf",
     "github.com/go-macaron/session",
+    "go.mongodb.org/mongo-driver/bson",
+    "go.mongodb.org/mongo-driver/bson/primitive",
     "go.mongodb.org/mongo-driver/mongo",
     "go.mongodb.org/mongo-driver/mongo/options",
     "golang.org/x/oauth2",
