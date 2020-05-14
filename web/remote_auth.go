@@ -16,6 +16,11 @@ import (
 var oauth2Config oauth2.Config
 var verifier *oidc.IDTokenVerifier
 
+var KeycloakUrl string
+var Realm string
+var ClientId string
+var ClientSecret string
+
 type Claims struct {
 	Email     string   `json:"email"`
 	Verified  bool     `json:"email_verified"`
@@ -36,17 +41,29 @@ func (claims Claims) IsBureau() bool {
 }
 
 func SetupRemoteAuth() {
-	keycloakUrl := os.Getenv("KEYCLOAK_URL")
-	if keycloakUrl == "" {
-		keycloakUrl = "http://192.168.0.25/auth/realms/asso-insa-lyon"
+	KeycloakUrl = os.Getenv("KEYCLOAK_URL")
+	if KeycloakUrl == "" {
+		KeycloakUrl = "http://192.168.0.25"
+	}
+	Realm = os.Getenv("KEYCLOAK_REALM")
+	if Realm == "" {
+		Realm = "asso-insa-lyon"
+	}
+	ClientId = os.Getenv("CLIENT_ID")
+	if ClientId == "" {
+		ClientId = "goami"
+	}
+	ClientSecret = os.Getenv("CLIENT_SECRET")
+	if ClientSecret == "" {
+		ClientSecret = "229b12d3-c523-4546-814a-c6199f5379c4"
 	}
 
-	keycloak, kerr := oidc.NewProvider(Context, keycloakUrl)
+	keycloak, kerr := oidc.NewProvider(Context, KeycloakUrl+"/auth/realms/"+Realm)
 	handleError(kerr)
 
 	oauth2Config = oauth2.Config{
-		ClientID:     "goami",
-		ClientSecret: "229b12d3-c523-4546-814a-c6199f5379c4",
+		ClientID:     ClientId,
+		ClientSecret: ClientSecret,
 		RedirectURL:  "http://localhost:4000/return/",
 
 		// Discovery returns the OAuth2 endpoints.
@@ -56,6 +73,8 @@ func SetupRemoteAuth() {
 		Scopes: []string{oidc.ScopeOpenID, "profile", "email"},
 	}
 	verifier = keycloak.Verifier(&oidc.Config{ClientID: "goami"})
+
+	SetupAdminClient()
 }
 
 func OidcStart(w http.ResponseWriter, r *http.Request, sess session.Store) {
@@ -133,13 +152,16 @@ func updateAdherentFromClaims(claims Claims, adherent *db.Adherent) {
 	adherent.Gender = claims.Gender
 	adherent.RoleBureau = claims.IsBureau()
 }
-func claimsToAdherent(claims Claims) db.Adherent {
-	adherent := db.Adherent{
+func initAdherent() *db.Adherent {
+	return &db.Adherent{
 		Commentaires: "ajouté par Keycloak",
 		JoinedAt:     time.Now(),
 		APaye:        false,
 	}
-	updateAdherentFromClaims(claims, &adherent)
+}
+func claimsToAdherent(claims Claims) *db.Adherent {
+	adherent := initAdherent()
+	updateAdherentFromClaims(claims, adherent)
 	return adherent
 }
 func updateAdherentFromToken(token *oauth2.Token, adherent *db.Adherent) {

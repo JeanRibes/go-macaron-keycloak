@@ -1,6 +1,7 @@
 package db
 
 import (
+	"github.com/Nerzal/gocloak"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"time"
 )
@@ -24,4 +25,16 @@ type Adherent struct { //les champs CamelCase sont convertis en lowercase
 	Commentaires string    //pour les admins
 	APaye        bool      `bson:"a_paye"`
 	RoleBureau   bool      `bson:"role_bureau"`
+}
+
+func (adherent *Adherent) UserToAdherent(user *gocloak.User) {
+	adherent.LastName = user.LastName
+	adherent.FirstName = user.FirstName
+	adherent.Email = user.Email
+	adherent.Username = user.Username
+	for key, values := range user.Attributes {
+		if key == "gender" {
+			adherent.Gender = values[0]
+		}
+	}
 }

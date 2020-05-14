@@ -18,7 +18,7 @@ func FindAdherentByUsername(username string) (*Adherent, error) {
 	return adherent, nil
 }
 
-func CreateAdherent(adherent Adherent) {
+func CreateAdherent(adherent *Adherent) {
 	is, err := AdherentsCollection.InsertOne(Context, adherent)
 	handleError(err)
 	handleError(AdherentsCollection.FindOne(Context, bson.D{{"_id", is.InsertedID}}).Decode(&adherent)) //vérif

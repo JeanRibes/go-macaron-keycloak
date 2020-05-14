@@ -17,6 +17,10 @@ func SetupRoutes(m *macaron.Macaron) {
 
 	m.Get("/list", BureauMiddleware, TableauAdherents)
 	m.Post("/modifpay", csrf.Validate, BureauMiddleware, ModifPaiement)
+	m.Get("/keycloak/recherche/", BureauMiddleware, RechercheUsersKC)
+	m.Post("/keycloak/recherche/", csrf.Validate, BureauMiddleware, RechercheUsersKcRresult)
+	m.Post("/keycloak/ajout/", csrf.Validate, BureauMiddleware, AjoutUser)
+	m.Get("/adherent/:username/", BureauMiddleware, ViewAdherent)
 
 	m.Get("/test", func(w http.ResponseWriter, r *http.Request, ctx *macaron.Context) {
 		ctx.Header().Set("Content-Type", "text/html")

@@ -5,6 +5,10 @@ Il récupère les profils adhérents depuis Keycloak quand ceux-ci se connectent
 Si un utilisateur possède le rôle ``"bureau"``, il est administrateur.
 
 Les profils utilisateurs sont mis à jour à chaque connexion. Il n'existe pas d'autre mode de connexion que Keycloak (ou autres Openidconnect).
+## Permissions
+Mode alternatif où les adhérents n'ont pas besoin de se connecter
+On truste les admins d'asso et on leur permet de rechercher par email dans la base de données.
+C'est forcé dans l'appli ...
 # Déploiement
 ## Configuration
 ### Variables d'environnment

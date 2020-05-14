@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Ajout d'adhérents</title>
+</head>
+<body bgcolor="#696969" text="#f0f8ff">
+<h2>Recherche dans l'annuaire associatif</h2>
+<form method="post" action=".">
+    <label for="emails">E-mail</label>
+    <input type="text" name="email" id="emails" value="jean.christophe.ribes@sfr.fr">
+    <input type="hidden" name="_csrf" value="{{.csrf_token}}"/>
+    <button>rechercher</button>
+</form>
+{{ if .Resultats}}
+    oui
+    <br>oui
+    <ul>
+        {{range .Users}}
+            <li>
+                {{$.csrf_token}}
+                <strong>{{.FirstName}} {{.LastName}}</strong> <i>{{.Email}}</i> ({{.Username}})
+                <br/>
+                <form method="post" action="/keycloak/ajout/">
+                    <input type="hidden" name="_csrf" value="{{$.csrf_token}}"/>
+                    <input type="hidden" name="username" value="{{.Username}}">
+                    <input type="text" name="id" value="{{.ID}}">
+                    <button>Inscrire</button>
+                </form>
+            </li>
+        {{end}}
+    </ul>
+{{end}}
+{{.csrf_token}}
+</body>
+</html>

@@ -52,3 +52,38 @@ func ModifPaiement(ctx *macaron.Context) {
 	db.UpdateMultiplePayments(modifs)
 	ctx.JSON(200, modifs)
 }
+
+func RechercheUsersKC(ctx *macaron.Context, x csrf.CSRF) {
+	ctx.Data["csrf_token"] = x.GetToken()
+	ctx.HTML(200, "gestion/recherche")
+}
+func RechercheUsersKcRresult(ctx *macaron.Context, x csrf.CSRF) {
+	ctx.Data["csrf_token"] = x.GetToken()
+
+	email := ctx.Req.Form["email"]
+	ctx.Data["Resultats"] = true
+	ctx.Data["Users"] = SearchUsersByEmail(email[0])
+	ctx.HTML(200, "gestion/recherche")
+}
+
+func AjoutUser(ctx *macaron.Context) {
+	println(ctx.Req.Form["username"][0])
+	println(ctx.Req.Form["id"][0])
+	user := GetUserById(ctx.Req.Form["id"][0])
+	adherent := initAdherent()
+	adherent.UserToAdherent(user)
+
+	db.CreateAdherent(adherent)
+
+	l := "/adherent/" + adherent.Username + "/"
+	println(l)
+	fmt.Printf("%s\n", l)
+	ctx.Redirect(l)
+}
+
+func ViewAdherent(ctx *macaron.Context) {
+	ad, err := db.FindAdherentByUsername(ctx.Params(":username"))
+	showError(ctx, err)
+	ctx.Data["Adherent"] = ad
+	ctx.HTML(200, "profile")
+}

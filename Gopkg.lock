@@ -2,12 +2,31 @@
 
 
 [[projects]]
+  digest = "1:04e4a3d13e9161e1c3db8e1f1f9c3aea0f1ac3c847170cbc709031d7c03317fe"
+  name = "github.com/Nerzal/gocloak"
+  packages = [
+    ".",
+    "pkg/jwx",
+  ]
+  pruneopts = "UT"
+  revision = "ffb03da972d73b53974815bc3862fab119d388c8"
+  version = "v2.1.0"
+
+[[projects]]
   digest = "1:910c5b111ca13127693df80a59be2c952ad97313626116c0c9895e7b588f2a29"
   name = "github.com/coreos/go-oidc"
   packages = ["."]
   pruneopts = "UT"
   revision = "8d771559cf6e5111c9b9159810d0e4538e7cdc82"
   version = "v2.2.1"
+
+[[projects]]
+  digest = "1:76dc72490af7174349349838f2fe118996381b31ea83243812a97e5a0fd5ed55"
+  name = "github.com/dgrijalva/jwt-go"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "06ea1031745cb8b3dab3f6a236daf2b0aa468b7e"
+  version = "v3.2.0"
 
 [[projects]]
   branch = "master"
@@ -168,11 +187,13 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:f8b491a7c25030a895a0e579742d07136e6958e77ef2d46e769db8eec4e58fcd"
+  digest = "1:596d0dfadc456ff8a0c277995d969b6ad4f0da9be0e49cd558f7ce31d23eff9b"
   name = "golang.org/x/net"
   packages = [
     "context",
     "context/ctxhttp",
+    "idna",
+    "publicsuffix",
   ]
   pruneopts = "UT"
   revision = "a91f0712d120a21e49061d61eb6ba9b88cb0d376"
@@ -197,15 +218,25 @@
   revision = "43a5402ce75a95522677f77c619865d66b8c57ab"
 
 [[projects]]
-  digest = "1:1093f2eb4b344996604f7d8b29a16c5b22ab9e1b25652140d3fede39f640d5cd"
+  digest = "1:8d8faad6b12a3a4c819a3f9618cb6ee1fa1cfc33253abeeea8b55336721e3405"
   name = "golang.org/x/text"
   packages = [
+    "collate",
+    "collate/build",
+    "internal/colltab",
     "internal/gen",
+    "internal/language",
+    "internal/language/compact",
+    "internal/tag",
     "internal/triegen",
     "internal/ucd",
+    "language",
+    "secure/bidirule",
     "transform",
+    "unicode/bidi",
     "unicode/cldr",
     "unicode/norm",
+    "unicode/rangetable",
   ]
   pruneopts = "UT"
   revision = "342b2e1fbaa52c93f31447ad2c6abc048c63e475"
@@ -280,6 +311,14 @@
   version = "v1.3.8"
 
 [[projects]]
+  digest = "1:41206f4d0410803e64cfb203f665330c3183988408cb532b56305a816a87bd99"
+  name = "gopkg.in/resty.v1"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "fa5875c0caa5c260ab78acec5a244215a730247f"
+  version = "v1.12.0"
+
+[[projects]]
   digest = "1:c864e49942441f23f2b51ba1eacf4d43dedec45b76f06800207b20fc8642ad78"
   name = "gopkg.in/square/go-jose.v2"
   packages = [
@@ -295,6 +334,7 @@
   analyzer-name = "dep"
   analyzer-version = 1
   input-imports = [
+    "github.com/Nerzal/gocloak",
     "github.com/coreos/go-oidc",
     "github.com/go-macaron/csrf",
     "github.com/go-macaron/session",
