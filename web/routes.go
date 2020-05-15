@@ -9,7 +9,6 @@ import (
 
 func SetupRoutes(m *macaron.Macaron) {
 	m.Get("/", Index)
-	m.Get("/t", TestP)
 
 	//authentification Keycloak
 	m.Get("/start/", OidcStart)

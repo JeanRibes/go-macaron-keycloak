@@ -32,3 +32,7 @@
 [[constraint]]
   branch = "master"
   name = "github.com/go-macaron/csrf"
+
+[[constraint]]
+  name = "github.com/flosch/pongo2"
+  revision = "76fc00043fe10ab2799c0fc98ac0a8dff73b2ef6"

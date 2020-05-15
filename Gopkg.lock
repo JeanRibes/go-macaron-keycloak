@@ -29,6 +29,13 @@
   version = "v3.2.0"
 
 [[projects]]
+  digest = "1:e122ed9a48c5357e3101ad1eac35b2a36cb89426e0623ea08af1f75fb0de257f"
+  name = "github.com/flosch/pongo2"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "76fc00043fe10ab2799c0fc98ac0a8dff73b2ef6"
+
+[[projects]]
   branch = "master"
   digest = "1:f43cad4967e4afc33c1ebb5c155db8c9da7011122a07b3d7348fd794fc1df512"
   name = "github.com/go-macaron/csrf"
@@ -43,6 +50,14 @@
   packages = ["."]
   pruneopts = "UT"
   revision = "138e5925c53bc4b58f90b4787ad7a682c4c6498f"
+
+[[projects]]
+  branch = "master"
+  digest = "1:03e4c7da5f48a290ec28e009f5d4d4e6aab107fcecbf0bdc70ef35d1fdc49ba8"
+  name = "github.com/go-macaron/pongo2"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "6ca146b415a1c2179c9613f6de8bf88531a14473"
 
 [[projects]]
   branch = "master"
@@ -337,6 +352,7 @@
     "github.com/Nerzal/gocloak",
     "github.com/coreos/go-oidc",
     "github.com/go-macaron/csrf",
+    "github.com/go-macaron/pongo2",
     "github.com/go-macaron/session",
     "go.mongodb.org/mongo-driver/bson",
     "go.mongodb.org/mongo-driver/bson/primitive",
