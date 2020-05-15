@@ -14,7 +14,7 @@
 {{end}}
 
 {{define "show_adherent"}}
-    {{.FirstName}} {{.LastName}}, {{if eq .Gender "W"}} femme {{else}} homme {{end}} ({{.Commentaires}})
+    <a href="{{.Username}}">{{.FirstName}} {{.LastName}}</a> , {{if eq .Gender "W"}} femme {{else}} homme {{end}} ({{.Commentaires}})
 {{end}}
 
 {{template "base"}}

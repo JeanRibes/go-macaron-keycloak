@@ -9,18 +9,19 @@ import (
 
 func SetupRoutes(m *macaron.Macaron) {
 	m.Get("/", Index)
+	m.Get("/t", TestP)
 
 	//authentification Keycloak
 	m.Get("/start/", OidcStart)
 	m.Get("/return/", OidcFinish)
 	m.Get("/profile", AuthenticationMiddleware, MyProfile)
 
-	m.Get("/list", BureauMiddleware, TableauAdherents)
-	m.Post("/modifpay", csrf.Validate, BureauMiddleware, ModifPaiement)
+	m.Get("/adherents/", BureauMiddleware, TableauAdherents)
+	m.Get("/adherents/:username/", BureauMiddleware, ViewAdherent)
+	m.Post("/modifpay/", csrf.Validate, BureauMiddleware, ModifPaiement)
 	m.Get("/keycloak/recherche/", BureauMiddleware, RechercheUsersKC)
 	m.Post("/keycloak/recherche/", csrf.Validate, BureauMiddleware, RechercheUsersKcRresult)
 	m.Post("/keycloak/ajout/", csrf.Validate, BureauMiddleware, AjoutUser)
-	m.Get("/adherent/:username/", BureauMiddleware, ViewAdherent)
 
 	m.Get("/test", func(w http.ResponseWriter, r *http.Request, ctx *macaron.Context) {
 		ctx.Header().Set("Content-Type", "text/html")

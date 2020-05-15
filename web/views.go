@@ -1,11 +1,12 @@
 package web
 
 import (
-	"ami/db"
+	"evigo/db"
 	"fmt"
 	"github.com/go-macaron/csrf"
 	"github.com/go-macaron/session"
 	"gopkg.in/macaron.v1"
+	"net/http"
 )
 
 func showError(ctx *macaron.Context, err error) {
@@ -50,7 +51,7 @@ func ModifPaiement(ctx *macaron.Context) {
 		modifs = append(modifs, name)
 	}
 	db.UpdateMultiplePayments(modifs)
-	ctx.JSON(200, modifs)
+	ctx.Redirect("/adherents/", http.StatusAccepted)
 }
 
 func RechercheUsersKC(ctx *macaron.Context, x csrf.CSRF) {

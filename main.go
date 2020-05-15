@@ -1,8 +1,8 @@
 package main
 
 import (
-	"ami/db"
-	"ami/web"
+	"evigo/db"
+	"evigo/web"
 )
 
 func handleError(err error) {
@@ -12,6 +12,7 @@ func handleError(err error) {
 }
 func main() {
 	m := web.CreateServer() //  https://go-macaron.com/
+	println("serv created")
 
 	db.Connect()
 	defer db.Disconnect()

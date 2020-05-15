@@ -1,8 +1,8 @@
 package web
 
 import (
-	"ami/db"
 	"errors"
+	"evigo/db"
 	"fmt"
 	"github.com/coreos/go-oidc"
 	"github.com/go-macaron/session"
@@ -28,11 +28,11 @@ type Claims struct {
 	FirstName string   `json:"given_name"`
 	Gender    string   `json:"gender"`
 	Username  string   `json:"preferred_username"`
-	AmiRoles  []string `json:"ami_roles"`
+	AssoRoles []string `json:"asso_roles"` //les rôles de l'asso (KC Client) (généralement mappés depuis des groupes)
 }
 
 func (claims Claims) IsBureau() bool {
-	for _, role := range claims.AmiRoles {
+	for _, role := range claims.AssoRoles {
 		if role == "bureau" {
 			return true
 		}
@@ -51,7 +51,7 @@ func SetupRemoteAuth() {
 	}
 	ClientId = os.Getenv("CLIENT_ID")
 	if ClientId == "" {
-		ClientId = "goami"
+		ClientId = "evigo"
 	}
 	ClientSecret = os.Getenv("CLIENT_SECRET")
 	if ClientSecret == "" {
@@ -72,7 +72,7 @@ func SetupRemoteAuth() {
 		// "openid" is a required scope for OpenID Connect flows.
 		Scopes: []string{oidc.ScopeOpenID, "profile", "email"},
 	}
-	verifier = keycloak.Verifier(&oidc.Config{ClientID: "goami"})
+	verifier = keycloak.Verifier(&oidc.Config{ClientID: ClientId})
 
 	SetupAdminClient()
 }
