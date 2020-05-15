@@ -27,14 +27,28 @@ type Adherent struct { //les champs CamelCase sont convertis en lowercase
 	RoleBureau   bool      `bson:"role_bureau"`
 }
 
-func (adherent *Adherent) UserToAdherent(user *gocloak.User) {
-	adherent.LastName = user.LastName
-	adherent.FirstName = user.FirstName
-	adherent.Email = user.Email
-	adherent.Username = user.Username
+func (this *Adherent) UserToAdherent(user *gocloak.User) {
+	this.LastName = user.LastName
+	this.FirstName = user.FirstName
+	this.Email = user.Email
+	this.Username = user.Username
 	for key, values := range user.Attributes {
 		if key == "gender" {
-			adherent.Gender = values[0]
+			this.Gender = values[0]
 		}
 	}
+}
+func (this *Adherent) DisplayGender() string {
+	if this.Gender == "W" {
+		return "femme"
+	}
+	if this.Gender == "M" {
+		return "homme"
+	} else {
+		return "_"
+	}
+}
+
+func (this *Adherent) String() string {
+	return this.FirstName + " " + this.LastName
 }

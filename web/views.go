@@ -18,7 +18,7 @@ func showError(ctx *macaron.Context, err error) {
 
 func Index(ctx *macaron.Context) {
 	ctx.Data["Variable"] = "valeur"
-	ctx.HTML(200, "test")
+	ctx.HTML(200, "index")
 }
 
 func MyProfile(ctx *macaron.Context, sess session.Store) {

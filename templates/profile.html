@@ -5,16 +5,18 @@
     <title>Mon profil adhérent</title>
 </head>
 <body>
-Bonjour {{.Adherent.FirstName}} {{.Adherent.LastName}} !<br/>
-votre nom d'utilisateur: {{.Adherent.Username}}<br/>
-{{if .Adherent.APaye}}
-    vous avez payé
-{{else}}
-    vous n'avez pas payé
-{{end}}
+Bonjour {{Adherent.FirstName}} {{Adherent.LastName}} !<br/>
+votre nom d'utilisateur: {{Adherent.Username}}<br/>
+{% if Adherent.APaye %}
+vous avez payé
+{% else %}
+vous n'avez pas payé
+{% endif %}
 <hr/>
-{{if .Adherent.RoleBureau}}
-    vous faites partie du bureau, vous avez donc des droits administratifs sur ce site
-{{end}}
+{% if Adherent.RoleBureau %}
+vous faites partie du bureau, vous avez donc des droits administratifs sur ce site
+<br/>
+<a href="/adherents/">liste des adhérents</a>
+{% endif %}
 </body>
 </html>

@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+
+{%block title%}Liste des adhérents{%endblock%}
+
+{% block content %}
+
+{% macro detail_ad(adherent) %}
+<li>
+    <a href="{{adherent.Username}}">{{adherent.FirstName}} {{adherent.LastName}}</a> , {{adherent.Gender}}
+    ({{adherent.Commentaires}})
+</li>
+{% endmacro %}
+
+<h2>Liste des adhérents</h2>
+
+<h4>Valides</h4>
+<ul>
+    {% for adherent in Valides %}
+    {{ detail_ad(adherent) }}
+    {% endfor %}
+</ul>
+
+<h4>Non payés</h4>
+<ul>
+    {% for adherent in Invalides %}
+    {{ detail_ad(adherent) }}
+    {% endfor %}
+</ul>
+{% endblock %}

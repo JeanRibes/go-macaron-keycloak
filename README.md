@@ -9,6 +9,14 @@ Les profils utilisateurs sont mis à jour à chaque connexion. Il n'existe pas d
 Mode alternatif où les adhérents n'ont pas besoin de se connecter
 On truste les admins d'asso et on leur permet de rechercher par email dans la base de données.
 C'est forcé dans l'appli ...
+
+## Fonctionnement
+Utilise le *framework* **go-macaron**, qui utilise le même principe de Handlers et middlewares que `net/http`.
+Le routage est interopérable avec des Handlers Go `net/http` classiques.
+
+Les templates sont faits avec **pongo2**, qui a la même syntaxe que les templates *Django*
+
+La base de données est **MongoDB**, du *NoSQL*.
 # Déploiement
 ## Configuration
 ### Variables d'environnment
