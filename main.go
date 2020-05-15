@@ -13,10 +13,10 @@ func handleError(err error) {
 func main() {
 	m := web.CreateServer() //  https://go-macaron.com/
 
+	web.SetupRemoteAuth() //initialise la connexion à Keycloak
+
 	db.Connect()
 	defer db.Disconnect()
-
-	web.SetupRemoteAuth() //initialise la connexion à Keycloak
 
 	web.SetupRoutes(m)
 

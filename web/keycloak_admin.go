@@ -10,7 +10,7 @@ var client gocloak.GoCloak
 var token *gocloak.JWT
 
 func SetupAdminClient() {
-
+	client = gocloak.NewClient(KeycloakUrl)
 	//users, err := client.GetUsers(token.AccessToken, "asso-insa-lyon", gocloak.GetUsersParams{})
 	//users, err := client.GetUsers(token.AccessToken, "asso-insa-lyon", gocloak.GetUsersParams{Email: ""})
 	//démontre que c'est interdit par la permission view-users
@@ -20,15 +20,16 @@ func SetupAdminClient() {
 	handleError(err)*/
 	AuthenticateAdmin()
 	go Refresh()
-	go RefreshRefreshToken()
+	//go RefreshRefreshToken()
 
 }
 func AuthenticateAdmin() {
 	log.Print("Authenticating Keycloak admin ....")
-	client = gocloak.NewClient(KeycloakUrl)
 	var err error
 	token, err = client.LoginClient(ClientId, ClientSecret, Realm)
-	handleError(err)
+	if err != nil {
+		log.Fatal(err)
+	}
 	log.Print(" Authenticated Keycloak admin [ok]")
 }
 func RefreshRefreshToken() {
@@ -39,11 +40,14 @@ func RefreshRefreshToken() {
 
 func Refresh() {
 	time.Sleep((time.Duration(token.ExpiresIn) - 30) * time.Second)
-	var rerr error
+	/*var rerr error
 	log.Print("refreshing Keycloak admin token ....")
 	token, rerr = client.RefreshToken(token.RefreshToken, ClientId, ClientSecret, Realm)
-	handleError(rerr)
-	log.Print(" refreshed Keycloak admin token [ok]")
+	if rerr != nil {
+		log.Fatal(rerr)
+	}
+	log.Print(" refreshed Keycloak admin token [ok]")*/
+	AuthenticateAdmin()
 	Refresh()
 	log.Print("refresh lööp ended")
 }
